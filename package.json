@@ -1,0 +1,27 @@
+{
+  "name": "relaunch-my-listing",
+  "version": "1.0.0",
+  "description": "Opt-in funnel for the $149 Listing Relaunch Kit — Alfredo Nava, Real Broker / NVA Visuals",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "compression": "^1.7.4",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "nodemailer": "^6.9.14"
+  },
+  "keywords": [
+    "real-estate",
+    "funnel",
+    "express"
+  ],
+  "author": "Alfredo Nava",
+  "license": "UNLICENSED",
+  "private": true
+}
