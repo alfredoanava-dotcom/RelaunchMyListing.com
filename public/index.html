@@ -54,6 +54,7 @@ h1 em{font-style:normal;color:var(--amber)}
 /* ---------- before/after slider (signature) ---------- */
 .ba{position:relative;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);aspect-ratio:4/3;user-select:none;touch-action:none;background:#000}
 .scene{position:absolute;inset:0}
+.ba-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 /* stylized room: wall, window w/ desert view, floor */
 .room{position:absolute;inset:0;background:linear-gradient(180deg,#E9E2D2 0%,#E2D9C4 62%,#B08D5F 62.1%,#8F6E45 100%)}
 .room .window{position:absolute;left:12%;top:14%;width:40%;height:44%;border-radius:6px;border:10px solid #F6F1E4;background:linear-gradient(180deg,#8FC1E9 0%,#F5C87A 55%,#E08A4E 72%,#B5673A 100%);box-shadow:inset 0 0 0 2px rgba(0,0,0,.08)}
@@ -220,16 +221,19 @@ footer .eho{display:flex;align-items:center;gap:10px;margin-top:8px}
       </div>
       <div>
         <div class="ba" id="ba">
+          <!-- ═══════════════════════════════════════════════════════════
+               BEFORE / AFTER PHOTOS
+               Put your two images in the repo at  public/images/  and keep
+               these filenames (or change the src to match yours):
+                 old-listing.jpg  = the bad original photo
+                 relaunch.jpg     = your new photo of the SAME room/angle
+               Tip: same framing for both makes the slider land hardest.
+          ═══════════════════════════════════════════════════════════ -->
           <div class="scene before">
-            <div class="room">
-              <div class="window"></div><div class="lamp"></div><div class="sofa"></div><div class="rug"></div>
-            </div>
-            <div class="grain"></div>
+            <img class="ba-img" src="/images/old-listing.jpg" alt="Your old listing photo">
           </div>
           <div class="scene after">
-            <div class="room">
-              <div class="window"></div><div class="lamp"></div><div class="sofa"></div><div class="rug"></div>
-            </div>
+            <img class="ba-img" src="/images/relaunch.jpg" alt="The relaunch photo">
           </div>
           <span class="tag b">YOUR OLD LISTING</span>
           <span class="tag a">THE RELAUNCH</span>
