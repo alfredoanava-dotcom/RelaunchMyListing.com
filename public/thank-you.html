@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pick Your Shoot Date | The $149 Listing Relaunch Kit</title>
+<title>Pick Your Session Date | The $149 Listing Relaunch Kit</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -66,7 +66,7 @@ h1 em{font-style:normal;color:var(--amber)}
 h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(26px,3.6vw,36px);line-height:1.06;letter-spacing:-.01em;text-align:center;margin-bottom:10px}
 .booking .sub{text-align:center;color:var(--muted);font-size:15.5px;max-width:56ch;margin:0 auto 30px}
 .cal-frame{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;position:relative}
-.cal-frame iframe{display:block;width:100%;height:760px;border:0}
+.cal-frame #my-cal-inline-listing-relaunch-shoot{width:100%;min-height:760px}
 .secure{display:flex;justify-content:center;gap:22px;flex-wrap:wrap;margin-top:18px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)}
 .secure span{display:flex;align-items:center;gap:7px}
 
@@ -102,7 +102,7 @@ footer .eho{display:flex;align-items:center;gap:10px;margin-top:6px}
 @media (max-width:820px){
   .how .row{grid-template-columns:1fr}
   .check-grid{grid-template-columns:1fr}
-  .cal-frame iframe{height:640px}
+  .cal-frame #my-cal-inline-listing-relaunch-shoot{min-height:640px}
   .topbar .field{display:none}
 }
 </style>
@@ -124,7 +124,7 @@ footer .eho{display:flex;align-items:center;gap:10px;margin-top:6px}
     <span class="arrow">›</span>
     <div class="step now"><span class="n">2</span> PICK DATE + PAY</div>
     <span class="arrow">›</span>
-    <div class="step"><span class="n">3</span> SHOOT DAY</div>
+    <div class="step"><span class="n">3</span> SESSION DAY</div>
   </div>
 </div>
 
@@ -132,8 +132,8 @@ footer .eho{display:flex;align-items:center;gap:10px;margin-top:6px}
 <header class="hero">
   <div class="wrap">
     <div class="check">📅</div>
-    <h1>Almost done. <em>Pick your shoot date.</em></h1>
-    <p>No waiting on my text — my live calendar is below. Pick a date and lock it in with the <b>$149</b>. Only <b>paid bookings hold a slot</b>, and there are 4 a month.</p>
+    <h1>One more step to your <em>relaunch.</em></h1>
+    <p>Choose your session date on the live calendar below and lock it with the <b>$149</b>. That one payment holds your slot and <b>covers the full kit</b>. I only take 4 sessions a month, so grab the time that works.</p>
   </div>
 </header>
 
@@ -141,9 +141,9 @@ footer .eho{display:flex;align-items:center;gap:10px;margin-top:6px}
 <div class="how">
   <div class="wrap">
     <div class="row">
-      <div class="how-card"><div class="ic">📅</div><div><b>1. Pick your date</b><small>Choose any open slot on the calendar below — it shows my real, live availability.</small></div></div>
+      <div class="how-card"><div class="ic">📅</div><div><b>1. Pick your date</b><small>Choose any open slot on the calendar below. It shows my real, live availability.</small></div></div>
       <div class="how-card"><div class="ic">🔒</div><div><b>2. Pay securely via Stripe</b><small>You'll check out through Stripe when you book. I never see or store your card details.</small></div></div>
-      <div class="how-card"><div class="ic">🎥</div><div><b>3. I show up and shoot</b><small>Confirmation and prep checklist hit your inbox instantly. Files delivered within 72 hours.</small></div></div>
+      <div class="how-card"><div class="ic">🎥</div><div><b>3. I show up and create</b><small>Confirmation and prep checklist hit your inbox instantly. Files delivered within 72 hours.</small></div></div>
     </div>
   </div>
 </div>
@@ -151,30 +151,21 @@ footer .eho{display:flex;align-items:center;gap:10px;margin-top:6px}
 <!-- BOOKING -->
 <section class="booking" id="booking">
   <div class="wrap">
-    <div class="kicker">Step 2 of 3 — Live Calendar</div>
-    <h2>Choose your relaunch shoot date</h2>
-    <p class="sub">Shoots run about 2 hours. Morning slots have the best natural light — grab one if you can.</p>
+    <div class="kicker">Step 2 of 3 · Live Calendar</div>
+    <h2>Choose your relaunch session date</h2>
+    <p class="sub">Sessions run about 2 hours. Morning slots have the best natural light, so grab one if you can.</p>
 
     <div class="cal-frame">
-      <!-- ═══════════════════════════════════════════════════════════════
-           GOOGLE CALENDAR APPOINTMENT SCHEDULE EMBED
-           Replace the src below with YOUR embed URL:
-           Google Calendar → your appointment schedule → Share → "Website embed"
-           It will look like:
-           https://calendar.google.com/calendar/appointments/schedules/YOUR_TOKEN?gv=true
-           With "Require payment when booking" enabled ($149 via Stripe),
-           the booker pays inside this flow before the slot is confirmed.
-      ═══════════════════════════════════════════════════════════════ -->
-      <iframe
-        src="https://calendar.google.com/calendar/appointments/schedules/REPLACE_WITH_YOUR_SCHEDULE_TOKEN?gv=true"
-        title="Book your relaunch shoot"
-        loading="lazy">
-      </iframe>
+      <!-- Cal.com inline booking embed — live event:
+           cal.com/alfredo-nava-azrealestate/listing-relaunch-shoot
+           $149 Stripe payment is configured on the event type in Cal.com,
+           so the booker pays here before the slot confirms. -->
+      <div style="width:100%;overflow:scroll" id="my-cal-inline-listing-relaunch-shoot"></div>
     </div>
 
     <div class="secure">
       <span>🔒 Payment processed by Stripe</span>
-      <span>📅 Booking managed by Google Calendar</span>
+      <span>📅 Booking managed by Cal.com</span>
       <span>↩️ Night-and-Day refund guarantee</span>
     </div>
   </div>
@@ -185,16 +176,16 @@ footer .eho{display:flex;align-items:center;gap:10px;margin-top:6px}
   <div class="wrap">
     <div class="kicker">While you're here</div>
     <h2>The 20-minute prep that makes photos pop</h2>
-    <p class="sub">You'll get this checklist by email too — but homes that do these five things before I arrive photograph dramatically better.</p>
+    <p class="sub">You'll get this checklist by email too, but homes that do these five things before I arrive photograph dramatically better.</p>
     <div class="check-grid">
-      <div class="check-item"><span class="tick">✓</span> Turn on every light in the house — including lamps</div>
+      <div class="check-item"><span class="tick">✓</span> Turn on every light in the house, including lamps</div>
       <div class="check-item"><span class="tick">✓</span> Open all blinds and curtains</div>
       <div class="check-item"><span class="tick">✓</span> Clear kitchen and bathroom counters</div>
       <div class="check-item"><span class="tick">✓</span> Hide trash cans, dish racks, and pet bowls</div>
       <div class="check-item"><span class="tick">✓</span> Move cars out of the driveway</div>
       <div class="check-item"><span class="tick">✓</span> Bonus: fresh towels in bathrooms, pillows fluffed</div>
     </div>
-    <p class="note">Before your shoot, I'll also pull your expired listing and your neighborhood's sold comps — so your "Why It Didn't Sell" report is built on real data, ready when your media is.</p>
+    <p class="note">Before your session, I'll also pull your expired listing and your neighborhood's sold comps, so your "Why It Didn't Sell" report is built on real data, ready when your media is.</p>
   </div>
 </section>
 
@@ -203,7 +194,7 @@ footer .eho{display:flex;align-items:center;gap:10px;margin-top:6px}
   <div class="wrap">
     <div class="g-card">
       <div class="seal">★ The Night-and-Day Guarantee</div>
-      <p>If the new photos and film aren't <b>night-and-day better</b> than your old listing, tell me — full $149 refund, <b>and you keep every file.</b> There is no outcome where you lose money on this.</p>
+      <p>If the new photos and film aren't <b>night-and-day better</b> than your old listing, tell me. Full $149 refund, <b>and you keep every file.</b> There is no outcome where you lose money on this.</p>
     </div>
   </div>
 </section>
@@ -211,7 +202,7 @@ footer .eho{display:flex;align-items:center;gap:10px;margin-top:6px}
 <!-- FALLBACK -->
 <section class="fallback">
   <div class="wrap">
-    <p>Calendar not loading, or none of the dates work? Text me directly at <a href="sms:+16025550134">(602) 555-0134</a> and I'll find you a slot — sometimes I can squeeze in a fifth shoot.</p>
+    <p>Calendar not loading, or none of the dates work? Text me directly at <a href="sms:+16025550134">(602) 555-0134</a> and I'll find you a slot, sometimes I can squeeze in a fifth session.</p>
   </div>
 </section>
 
@@ -219,17 +210,35 @@ footer .eho{display:flex;align-items:center;gap:10px;margin-top:6px}
 <footer>
   <div class="wrap">
     <div><b>Alfredo Nava</b> · REALTOR® · AZ License SA716506000 · Real Broker</div>
-    <div>NVA Visuals — Real Estate Photography & Film · Serving the Greater Phoenix metro and buyers & sellers across Arizona</div>
+    <div>NVA Visuals · Real Estate Photography & Film · Serving the Greater Phoenix metro and buyers & sellers across Arizona</div>
     <div>The Listing Relaunch Kit is a media production service. Booking creates no listing agreement and no obligation to engage any brokerage service. Payments are processed by Stripe; refunds are handled per the Night-and-Day Guarantee. Cancellation and refund policy is shown on the booking form.</div>
     <div class="eho">⌂ Equal Housing Opportunity</div>
   </div>
 </footer>
 
+<!-- Cal.com inline embed -->
+<script type="text/javascript">
+  (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+  Cal("init", "listing-relaunch-shoot", {origin:"https://app.cal.com"});
+  Cal.config = Cal.config || {};
+  Cal.config.forwardQueryParams = true;
+  Cal.ns["listing-relaunch-shoot"]("inline", {
+    elementOrSelector:"#my-cal-inline-listing-relaunch-shoot",
+    config: {"layout":"month_view","useSlotsViewOnSmallScreen":"true"},
+    calLink: "alfredo-nava-azrealestate/listing-relaunch-shoot",
+  });
+  Cal.ns["listing-relaunch-shoot"]("ui", {
+    "theme":"light",
+    "hideEventTypeDetails":false,
+    "layout":"month_view",
+    "styles":{"branding":{"brandColor":"#F0A32C"}}
+  });
+</script>
+
 <script>
-/* Meta Pixel: fire InitiateCheckout when the booking page loads.
-   (The Lead event fires on the opt-in page. A Purchase event can't be
-   fired from inside Google's iframe — track completed bookings via
-   Stripe's dashboard or a Stripe webhook to your server instead.) */
+/* Meta Pixel note: the Lead event fires on the opt-in page. A Purchase can't
+   be fired from inside Cal.com's embed — track completed, PAID bookings from
+   your Stripe dashboard (or a Stripe webhook) instead. */
 // fbq('track', 'InitiateCheckout', {value: 149.00, currency: 'USD'});
 </script>
 </body>
