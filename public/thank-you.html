@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pick Your Shoot Date | The $149 Listing Relaunch Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#141B29;
+  --ink-2:#1D2739;
+  --paper:#FBF8F1;
+  --paper-2:#F3EEE2;
+  --amber:#F0A32C;
+  --amber-deep:#D88A12;
+  --red:#E4572E;
+  --green:#3E9B6A;
+  --muted:#5C6472;
+  --line:#E5DECE;
+  --radius:14px;
+  --shadow:0 18px 50px -18px rgba(20,27,41,.35);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',system-ui,sans-serif;color:var(--ink);background:var(--paper);line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1060px;margin:0 auto;padding:0 22px}
+
+/* top bar */
+.topbar{background:var(--ink);color:#fff;padding:10px 0;font-size:12.5px;letter-spacing:.04em}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.topbar .field{font-family:'IBM Plex Mono',monospace;color:#9AA6BC}
+.topbar .field b{color:var(--amber);font-weight:600}
+.brand{font-weight:700;letter-spacing:.02em}
+.brand span{color:var(--amber)}
+
+/* progress */
+.progress{background:var(--ink-2);padding:14px 0}
+.progress .wrap{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap}
+.step{display:flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.06em;color:#8E99AE}
+.step .n{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:11px;background:rgba(255,255,255,.12);color:#fff}
+.step.done .n{background:var(--green);color:#fff}
+.step.now{color:var(--amber)}
+.step.now .n{background:var(--amber);color:var(--ink)}
+.arrow{color:#4A5568;font-size:13px}
+
+/* hero */
+.hero{background:linear-gradient(180deg,var(--ink) 0%,var(--ink-2) 100%);color:#fff;padding:56px 0 48px;text-align:center}
+.check{width:64px;height:64px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:30px;color:#fff;box-shadow:0 0 0 10px rgba(62,155,106,.18)}
+h1{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(30px,5vw,48px);line-height:1.05;letter-spacing:-.015em}
+h1 em{font-style:normal;color:var(--amber)}
+.hero p{margin:16px auto 0;font-size:17px;color:#C4CCDB;max-width:52ch}
+.hero p b{color:#fff}
+
+/* how it works strip */
+.how{background:var(--paper);padding:34px 0 0}
+.how .row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.how-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;display:flex;gap:14px;align-items:flex-start}
+.how-card .ic{font-size:24px;line-height:1.2}
+.how-card b{display:block;font-size:15px;margin-bottom:3px}
+.how-card small{font-size:13px;color:var(--muted);line-height:1.5;display:block}
+
+/* booking */
+.booking{padding:54px 0 70px}
+.kicker{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber-deep);margin-bottom:12px;font-weight:600;text-align:center}
+h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(26px,3.6vw,36px);line-height:1.06;letter-spacing:-.01em;text-align:center;margin-bottom:10px}
+.booking .sub{text-align:center;color:var(--muted);font-size:15.5px;max-width:56ch;margin:0 auto 30px}
+.cal-frame{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;position:relative}
+.cal-frame iframe{display:block;width:100%;height:760px;border:0}
+.secure{display:flex;justify-content:center;gap:22px;flex-wrap:wrap;margin-top:18px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted)}
+.secure span{display:flex;align-items:center;gap:7px}
+
+/* prep */
+.prep{background:var(--ink);color:#fff;padding:64px 0}
+.prep .kicker{color:var(--amber)}
+.prep h2{color:#fff}
+.prep .sub{text-align:center;color:#C4CCDB;font-size:15.5px;max-width:56ch;margin:0 auto 32px}
+.check-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:760px;margin:0 auto}
+.check-item{background:var(--ink-2);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:16px 18px;display:flex;gap:12px;align-items:flex-start;font-size:14.5px;color:#D6DCE8}
+.check-item .tick{color:var(--amber);font-weight:700;flex-shrink:0}
+.prep .note{text-align:center;margin-top:26px;font-size:13.5px;color:#9AA6BC}
+
+/* guarantee reminder */
+.mini-g{padding:56px 0;background:var(--paper-2)}
+.g-card{background:#fff;border:2px solid var(--ink);border-radius:var(--radius);padding:28px 32px;max-width:680px;margin:0 auto;box-shadow:var(--shadow);text-align:center}
+.seal{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;background:var(--ink);color:var(--amber);padding:7px 14px;border-radius:100px;margin-bottom:14px;font-weight:600}
+.g-card p{font-size:15.5px;color:#3A4150}
+.g-card p b{color:var(--ink)}
+
+/* contact fallback */
+.fallback{padding:50px 0;text-align:center}
+.fallback p{font-size:15.5px;color:var(--muted);max-width:50ch;margin:0 auto}
+.fallback a{color:var(--amber-deep);font-weight:700;text-decoration:none}
+.fallback a:hover{text-decoration:underline}
+
+/* footer */
+footer{background:var(--ink);color:#8E99AE;padding:40px 0;font-size:12.5px;line-height:1.7}
+footer .wrap{display:grid;gap:8px}
+footer b{color:#C4CCDB}
+footer .eho{display:flex;align-items:center;gap:10px;margin-top:6px}
+
+@media (max-width:820px){
+  .how .row{grid-template-columns:1fr}
+  .check-grid{grid-template-columns:1fr}
+  .cal-frame iframe{height:640px}
+  .topbar .field{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="wrap">
+    <div class="brand">ALFREDO NAVA <span>/</span> REAL BROKER × NVA VISUALS</div>
+    <div class="field">STATUS: <b>SLOT SELECTION</b> &nbsp;|&nbsp; AREA: ARIZONA</div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress">
+  <div class="wrap">
+    <div class="step done"><span class="n">✓</span> YOUR INFO</div>
+    <span class="arrow">›</span>
+    <div class="step now"><span class="n">2</span> PICK DATE + PAY</div>
+    <span class="arrow">›</span>
+    <div class="step"><span class="n">3</span> SHOOT DAY</div>
+  </div>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <div class="check">📅</div>
+    <h1>Almost done. <em>Pick your shoot date.</em></h1>
+    <p>No waiting on my text — my live calendar is below. Pick a date and lock it in with the <b>$149</b>. Only <b>paid bookings hold a slot</b>, and there are 4 a month.</p>
+  </div>
+</header>
+
+<!-- HOW IT WORKS -->
+<div class="how">
+  <div class="wrap">
+    <div class="row">
+      <div class="how-card"><div class="ic">📅</div><div><b>1. Pick your date</b><small>Choose any open slot on the calendar below — it shows my real, live availability.</small></div></div>
+      <div class="how-card"><div class="ic">🔒</div><div><b>2. Pay securely via Stripe</b><small>You'll check out through Stripe when you book. I never see or store your card details.</small></div></div>
+      <div class="how-card"><div class="ic">🎥</div><div><b>3. I show up and shoot</b><small>Confirmation and prep checklist hit your inbox instantly. Files delivered within 72 hours.</small></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- BOOKING -->
+<section class="booking" id="booking">
+  <div class="wrap">
+    <div class="kicker">Step 2 of 3 — Live Calendar</div>
+    <h2>Choose your relaunch shoot date</h2>
+    <p class="sub">Shoots run about 2 hours. Morning slots have the best natural light — grab one if you can.</p>
+
+    <div class="cal-frame">
+      <!-- ═══════════════════════════════════════════════════════════════
+           GOOGLE CALENDAR APPOINTMENT SCHEDULE EMBED
+           Replace the src below with YOUR embed URL:
+           Google Calendar → your appointment schedule → Share → "Website embed"
+           It will look like:
+           https://calendar.google.com/calendar/appointments/schedules/YOUR_TOKEN?gv=true
+           With "Require payment when booking" enabled ($149 via Stripe),
+           the booker pays inside this flow before the slot is confirmed.
+      ═══════════════════════════════════════════════════════════════ -->
+      <iframe
+        src="https://calendar.google.com/calendar/appointments/schedules/REPLACE_WITH_YOUR_SCHEDULE_TOKEN?gv=true"
+        title="Book your relaunch shoot"
+        loading="lazy">
+      </iframe>
+    </div>
+
+    <div class="secure">
+      <span>🔒 Payment processed by Stripe</span>
+      <span>📅 Booking managed by Google Calendar</span>
+      <span>↩️ Night-and-Day refund guarantee</span>
+    </div>
+  </div>
+</section>
+
+<!-- PREP CHECKLIST -->
+<section class="prep">
+  <div class="wrap">
+    <div class="kicker">While you're here</div>
+    <h2>The 20-minute prep that makes photos pop</h2>
+    <p class="sub">You'll get this checklist by email too — but homes that do these five things before I arrive photograph dramatically better.</p>
+    <div class="check-grid">
+      <div class="check-item"><span class="tick">✓</span> Turn on every light in the house — including lamps</div>
+      <div class="check-item"><span class="tick">✓</span> Open all blinds and curtains</div>
+      <div class="check-item"><span class="tick">✓</span> Clear kitchen and bathroom counters</div>
+      <div class="check-item"><span class="tick">✓</span> Hide trash cans, dish racks, and pet bowls</div>
+      <div class="check-item"><span class="tick">✓</span> Move cars out of the driveway</div>
+      <div class="check-item"><span class="tick">✓</span> Bonus: fresh towels in bathrooms, pillows fluffed</div>
+    </div>
+    <p class="note">Before your shoot, I'll also pull your expired listing and your neighborhood's sold comps — so your "Why It Didn't Sell" report is built on real data, ready when your media is.</p>
+  </div>
+</section>
+
+<!-- GUARANTEE REMINDER -->
+<section class="mini-g">
+  <div class="wrap">
+    <div class="g-card">
+      <div class="seal">★ The Night-and-Day Guarantee</div>
+      <p>If the new photos and film aren't <b>night-and-day better</b> than your old listing, tell me — full $149 refund, <b>and you keep every file.</b> There is no outcome where you lose money on this.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FALLBACK -->
+<section class="fallback">
+  <div class="wrap">
+    <p>Calendar not loading, or none of the dates work? Text me directly at <a href="sms:+16025550134">(602) 555-0134</a> and I'll find you a slot — sometimes I can squeeze in a fifth shoot.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div><b>Alfredo Nava</b> · REALTOR® · AZ License SA716506000 · Real Broker</div>
+    <div>NVA Visuals — Real Estate Photography & Film · Serving the Greater Phoenix metro and buyers & sellers across Arizona</div>
+    <div>The Listing Relaunch Kit is a media production service. Booking creates no listing agreement and no obligation to engage any brokerage service. Payments are processed by Stripe; refunds are handled per the Night-and-Day Guarantee. Cancellation and refund policy is shown on the booking form.</div>
+    <div class="eho">⌂ Equal Housing Opportunity</div>
+  </div>
+</footer>
+
+<script>
+/* Meta Pixel: fire InitiateCheckout when the booking page loads.
+   (The Lead event fires on the opt-in page. A Purchase event can't be
+   fired from inside Google's iframe — track completed bookings via
+   Stripe's dashboard or a Stripe webhook to your server instead.) */
+// fbq('track', 'InitiateCheckout', {value: 149.00, currency: 'USD'});
+</script>
+</body>
+</html>
