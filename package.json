@@ -1,6 +1,6 @@
 {
   "name": "relaunch-my-listing",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Opt-in funnel for the $149 Listing Relaunch Kit — Alfredo Nava, Real Broker / NVA Visuals",
   "main": "server.js",
   "scripts": {
