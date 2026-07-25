@@ -2,17 +2,18 @@
    relaunchmylisting.com — server.js
    Alfredo Nava | REALTOR® | Real Broker | Arizona
 
-   What this file does:
-   1. Serves the front end from /public
-   2. POST /api/lead  — saves the lead to leads.jsonl AND emails Alfredo
-   3. GET  /health    — uptime check + tells you if email is wired up
-   4. Auto-creates leads.jsonl on first write
+   Opt-in works exactly like azhomelistings.net:
+   - Uses GMAIL with a 16-char App Password (no Hostinger mailbox needed)
+   - On every lead it sends TWO emails:
+       1) a readable alert to you (LEAD_TO)
+       2) a Lofty-parseable email to your Lofty address, so the lead
+          auto-creates in your CRM
+   - Also saves a local backup to leads.jsonl
 
-   IMPORTANT DESIGN NOTE:
-   Email is the SOURCE OF TRUTH for leads. On shared hosting the
-   leads.jsonl file can get wiped on a redeploy, so a lead is only
-   counted as "captured" if it lands in your inbox. The file is a
-   convenience backup, not the record.
+   Routes:
+     POST /api/lead  — capture a lead, email you + Lofty, then redirect to /book
+     GET  /book      — the booking / thank-you page
+     GET  /health    — quick check of whether email is wired up
    ============================================================ */
 
 require('dotenv').config();
@@ -26,42 +27,36 @@ const nodemailer = require('nodemailer');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-/* ---------- CONFIG (all set via environment variables on Hostinger) ---------- */
-// Where lead alerts are sent. Put your Lofty CRM parsing address here so
-// leads flow straight into your CRM, or your normal email.
-const LEAD_TO   = process.env.LEAD_TO   || 'Alfredo.anava@gmail.com';
-// The mailbox that SENDS the alert (usually the same as SMTP_USER).
-const LEAD_FROM = process.env.LEAD_FROM || process.env.SMTP_USER || 'Alfredo.anava@gmail.com';
+/* ---------- CONFIG ----------
+   The ONLY thing you must set on Hostinger is GMAIL_APP_PASSWORD.
+   You can reuse the same App Password from azhomelistings.net — an
+   App Password is tied to your Google account, not to one site. */
 
-// SMTP credentials. Two ways to configure:
-//   A) Hostinger email:  SMTP_HOST=smtp.hostinger.com  SMTP_PORT=465  SMTP_SECURE=true
-//   B) Gmail:            SMTP_HOST=smtp.gmail.com       SMTP_PORT=465  SMTP_SECURE=true
-//      (Gmail requires a 16-char App Password, not your login password.)
-const SMTP_HOST   = process.env.SMTP_HOST   || 'smtp.gmail.com';
-const SMTP_PORT   = parseInt(process.env.SMTP_PORT || '465', 10);
-const SMTP_SECURE = (process.env.SMTP_SECURE || 'true') === 'true';
-const SMTP_USER   = process.env.SMTP_USER   || '';
-const SMTP_PASS   = process.env.SMTP_PASS   || '';
+// Gmail account that SENDS the alert (and that the App Password belongs to).
+const GMAIL_USER = process.env.GMAIL_USER || 'Alfredo.anava@gmail.com';
 
-const EMAIL_ENABLED = Boolean(SMTP_USER && SMTP_PASS);
+// 16-char Gmail App Password. Set this in Hostinger > Environment Variables.
+// Get one at: myaccount.google.com > Security > 2-Step Verification > App passwords
+const GMAIL_APP_PASSWORD = (process.env.GMAIL_APP_PASSWORD || '').replace(/\s/g, '');
+
+// Where your readable lead alerts land.
+const LEAD_TO = process.env.LEAD_TO || 'Alfredo.anava@gmail.com';
+
+// Your Lofty email-parsing address — a lead emailed here auto-creates in Lofty.
+// This is the same one used on azhomelistings.net.
+const LOFTY_PARSING_EMAIL = process.env.LOFTY_PARSING_EMAIL || 'alfredo_nava@mail.lofty.me';
+
+const EMAIL_ENABLED = Boolean(GMAIL_USER && GMAIL_APP_PASSWORD);
 const LEADS_FILE = path.join(__dirname, 'leads.jsonl');
 
-/* ---------- mail transport ---------- */
+/* ---------- mail transport (Gmail) ---------- */
 let transporter = null;
 if (EMAIL_ENABLED) {
   transporter = nodemailer.createTransport({
-    host: SMTP_HOST,
-    port: SMTP_PORT,
-    secure: SMTP_SECURE,
-    auth: { user: SMTP_USER, pass: SMTP_PASS }
+    service: 'gmail',
+    auth: { user: GMAIL_USER, pass: GMAIL_APP_PASSWORD }
   });
 }
-
-/* ---------- middleware ---------- */
-app.use(compression());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
 
 /* ---------- helpers ---------- */
 function saveToDisk(lead) {
@@ -74,32 +69,61 @@ function saveToDisk(lead) {
   }
 }
 
+// 1) Human-readable alert to Alfredo.
 async function sendAlert(lead) {
-  if (!EMAIL_ENABLED) {
-    console.warn('[lead] EMAIL SKIPPED — SMTP_USER / SMTP_PASS not set in environment.');
-    return false;
-  }
-  try {
-    await transporter.sendMail({
-      from: `"Relaunch Funnel" <${LEAD_FROM}>`,
-      to: LEAD_TO,
-      replyTo: lead.email || undefined,
-      subject: `New Relaunch lead: ${lead.name || 'Unknown'}`,
-      text:
-        `New $149 Relaunch Kit lead\n\n` +
-        `Name:     ${lead.name || '-'}\n` +
-        `Phone:    ${lead.phone || '-'}\n` +
-        `Email:    ${lead.email || '-'}\n` +
-        `Address:  ${lead.address || '-'}\n` +
-        `Time:     ${lead.time}\n`
-    });
-    console.log('[lead] EMAIL SENT to', LEAD_TO);
-    return true;
-  } catch (err) {
-    console.error('[lead] EMAIL FAILED:', err.message);
-    return false;
-  }
+  await transporter.sendMail({
+    from: `"Relaunch Funnel" <${GMAIL_USER}>`,
+    to: LEAD_TO,
+    replyTo: lead.email || undefined,
+    subject: `New Relaunch lead: ${lead.name}`,
+    text:
+      `New $149 Relaunch Kit lead\n\n` +
+      `Name:     ${lead.name || '-'}\n` +
+      `Phone:    ${lead.phone || '-'}\n` +
+      `Email:    ${lead.email || '-'}\n` +
+      `Address:  ${lead.address || '-'}\n` +
+      `Time:     ${lead.time}\n`
+  });
 }
+
+// 2) Machine-parseable email to Lofty so the lead auto-creates in the CRM.
+//    Labeled Name/Email/Phone lines are what Lofty's parser looks for.
+async function sendToLofty(lead) {
+  if (!LOFTY_PARSING_EMAIL) return;
+  await transporter.sendMail({
+    from: `"${lead.name}" <${GMAIL_USER}>`,
+    to: LOFTY_PARSING_EMAIL,
+    replyTo: lead.email || undefined,
+    subject: `New Lead: ${lead.name}`,
+    text:
+      `Name: ${lead.name}\n` +
+      `Email: ${lead.email || ''}\n` +
+      `Phone: ${lead.phone || ''}\n` +
+      `Address: ${lead.address || ''}\n` +
+      `Source: RelaunchMyListing.com\n`
+  });
+}
+
+async function emailLead(lead) {
+  if (!EMAIL_ENABLED) {
+    console.warn('[lead] EMAIL SKIPPED — GMAIL_APP_PASSWORD not set in environment.');
+    return false;
+  }
+  let ok = false;
+  try { await sendAlert(lead);   console.log('[lead] ALERT SENT to', LEAD_TO); ok = true; }
+  catch (err) { console.error('[lead] ALERT FAILED:', err.message); }
+
+  try { await sendToLofty(lead); console.log('[lead] LOFTY SENT to', LOFTY_PARSING_EMAIL); ok = true; }
+  catch (err) { console.error('[lead] LOFTY FAILED:', err.message); }
+
+  return ok;
+}
+
+/* ---------- middleware ---------- */
+app.use(compression());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 
 /* ---------- routes ---------- */
 app.post('/api/lead', async (req, res) => {
@@ -108,7 +132,6 @@ app.post('/api/lead', async (req, res) => {
   const email   = (req.body.email   || '').toString().trim();
   const address = (req.body.address || '').toString().trim();
 
-  // Minimum viable lead: a name and a way to reach them.
   if (!name || !phone) {
     return res.status(400).json({ ok: false, error: 'Please include your name and mobile number.' });
   }
@@ -120,16 +143,15 @@ app.post('/api/lead', async (req, res) => {
   };
 
   const saved  = saveToDisk(lead);
-  const mailed = await sendAlert(lead);
+  const mailed = await emailLead(lead);
 
-  // A lead is captured if it persisted at least one way.
   if (saved || mailed) {
     console.log(`[lead] CAPTURED — file:${saved} email:${mailed} — ${name} / ${phone}`);
     return res.json({ ok: true, redirect: '/book' });
   }
 
   console.error('[lead] LOST — neither file nor email worked:', name, phone);
-  return res.status(500).json({ ok: false, error: 'Something broke on our end. Text me directly at (your number).' });
+  return res.status(500).json({ ok: false, error: 'Something broke on our end. Text me directly and I\'ll get you scheduled.' });
 });
 
 app.get('/book', (req, res) => {
@@ -140,8 +162,10 @@ app.get('/health', (req, res) => {
   res.json({
     ok: true,
     emailConfigured: EMAIL_ENABLED,
-    smtpHost: EMAIL_ENABLED ? SMTP_HOST : null,
-    leadTo: LEAD_TO
+    sendVia: EMAIL_ENABLED ? 'gmail' : null,
+    gmailUser: GMAIL_USER,
+    leadTo: LEAD_TO,
+    loftyParsingEmail: LOFTY_PARSING_EMAIL
   });
 });
 
@@ -154,9 +178,11 @@ app.listen(PORT, () => {
   console.log('========================================');
   console.log(`relaunchmylisting.com listening on :${PORT}`);
   if (EMAIL_ENABLED) {
-    console.log(`Email alerts: ON  (via ${SMTP_HOST}, to ${LEAD_TO})`);
+    console.log(`Email: ON (Gmail ${GMAIL_USER})`);
+    console.log(`  Alert -> ${LEAD_TO}`);
+    console.log(`  Lofty -> ${LOFTY_PARSING_EMAIL}`);
   } else {
-    console.log('Email alerts: OFF — set SMTP_USER and SMTP_PASS to turn them on.');
+    console.log('Email: OFF — set GMAIL_APP_PASSWORD to turn it on.');
     console.log('  >> This is the #1 reason leads/emails go missing. <<');
   }
   console.log('========================================');
